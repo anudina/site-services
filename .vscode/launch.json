@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SiteServicesApplication<site-services>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.anudina.org.siteservices.SiteServicesApplication",
+            "projectName": "site-services",
+            "args": ""
+        }
+    ]
+}

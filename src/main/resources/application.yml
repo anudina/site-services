@@ -1,0 +1,103 @@
+spring:
+ application.name: ${SPRING_APPLICATION_NAME:site-services}
+ profiles.active: dev
+    
+ cloud:
+    config:
+      enabled: false
+      discovery:
+        enabled: false
+      service-registry:
+       auto-registration:
+        enabled: false
+springdoc:
+  api-docs:
+    path: /swagger-ui-custom.html
+config:
+  slf4jfilter:
+    request_header: LOG_DATA
+    stage_info: STAGE_INFO
+
+server.tomcat.accesslog.enabled: true
+server:
+  tomcat:
+    redirect-context-root: false
+
+spring.sleuth:
+  traceId128: true
+logging:
+  pattern:
+    console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${logging.pattern.custom:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan}%clr([%line]){cyan} %clr(:){faint} %clr(%X{LOG_DATA}){red} %clr([%X{STAGE_INFO}]){red} %clr([%X{transaction_id}]){red} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}}' 
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping.health: health
+      exposure.include: health,info,loggers,metrics,logfile,httptrace,env,shutdown
+      enabled-by-default: false
+  endpoint:
+    health:
+      show-details: ALWAYS
+    info:
+      enabled: true
+    
+      
+
+      
+info:
+  app:
+    name: site-services
+    description: site-services
+  env:
+    vendor: ${java.specification.vendor}
+    vm-name: ${java.vm.name}
+    runtime-version: ${java.runtime.version}
+
+
+javers:
+  mappingStyle: FIELD
+  algorithm: LEVENSHTEIN_DISTANCE
+  prettyPrint: true
+  typeSafeValues: false
+  newObjectSnapshot: true
+
+spring.cloud.config.enabled: false
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  
+server:
+  port: 8080
+  servlet:
+    context-path: /site-services
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+server:
+  port: 5050
+  servlet:
+    context-path: /site-services
+---
+spring:
+  config:
+    activate:
+      on-profile: uat
+  
+server:
+  port: 5050
+  servlet.context-path: /site-services
+
+---
+spring:
+  profiles: prod
+  
+server:
+  port: 5050
+  servlet.context-path: /site-services
